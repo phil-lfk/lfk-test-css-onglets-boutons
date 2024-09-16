@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Description de la page" />
+  <title>boutons-et-onglets</title>
+  <style>
+/*------ PAS DE MARGES */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+    }
+/*------ UN PEU DE COULEURS */
+    .bg-blue { background-color: rgb(5, 5, 106); }
+    .bg-black { background-color: black; }
+    .bg-grey { background-color: rgb(89, 89, 89); }
+    .bg-red { background-color: rgb(116, 0, 0); }
+    .bg-green { background-color: rgb(56, 122, 3); }
+    .bg-yellow { background-color: rgb(238, 201, 35); }
+    .white { color: white; }
+    .black { color: black; }
+
+/*------ container global style */
+    .cont-global {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      height: 100vh; width: 100vw; padding: 0; margin: 0;
+    }
+/*------ CONFIG BOUTON */
+    .button { width: 80%; height: 5rem; }
+/*------ COLONNE GAUCHE */
+    .cont-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 25%;
+    }
+/*------ COLONNE DROITE qui contient les 4 div avec les items */
+    .cont-right {
+      height: 100%;
+      width: 75%;
+      position: relative;
+    }
+/*------ Agencement des boutons au sein de la div "four-btn" */
+    #four-btn {
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      height: 100%;
+    }
+/*------ Style pour un item de la colonne de droite */
+    .item {
+      padding-left: 5%;
+      padding-right: 5%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid #000000;
+      height: 5rem;
+      width: 80%;
+    }
+
+    /*------ Effet cascade sur les items - ajoute un délai pour chaque item */
+    .item:nth-child(1) { transition-delay: 0.2s; }
+    .item:nth-child(2) { transition-delay: 0.4s; }
+    .item:nth-child(3) { transition-delay: 0.6s; }
+    .item:nth-child(4) { transition-delay: 0.8s; }
+
+
+/*------ Style pour la div qui contient 4 items de la colonne de droite - réparti les espaces */
+    .items-right {
+      padding: 0.0001%;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(-20px);
+      visibility: hidden; /* Masquer par défaut */
+      transition: opacity 1s ease-in-out, transform 1s ease-in-out, visibility 2s ease-in-out;
+    }
+
+    .items-right.show {
+      opacity: 1;
+      transform: translateY(0);
+      visibility: visible; /* Afficher quand actif */
+    }
+
+    .items-right.hide {
+      opacity: 0;
+      transform: translateY(-20px);
+      visibility: hidden; /* Masquer avec animation */
+    }
+/*----------------------------- RESPONSIVE---------------------------- */
+    @media (max-width: 768px) {
+      .cont-global {
+        flex-direction: column;
+      }
+      .cont-left {
+        height: 30%;
+        width: 100vw;
+      }
+      .cont-right {
+        height: 100vh;
+        width: 100vw;
+      }
+      .button {
+        width: 60%;
+        height: 3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="cont-global bg-blue"><!------------------------------- container global --------------->
+
+    <div class="cont-left bg-grey"><!------------------------------ colonne gauche   ---------------->
+        <div id="four-btn"><!------------------------------------- div des 4 boutons ---------------->
+        <button id="btn-red" class="button bg-red white">Rouge</button>
+        <button id="btn-blue" class="button bg-blue white">Bleu</button>
+        <button id="btn-green" class="button bg-green">Vert</button>
+        <button id="btn-yellow" class="button bg-yellow">Jaune</button>
+      </div>
+    </div>
+
+    
+    <div class="cont-right bg-black"> <!------------------------------------------- DEBUT colonne droite -->
+
+      <div id="list-red" class="items-right">
+        <div class="item bg-red white"><p> Ceci est le premier élément de la liste pour le bouton rouge</p></div>
+        <div class="item bg-red white"><p> Ceci est le premier élément de la liste pour le bouton rouge</p></div>
+        <div class="item bg-red white"><p> Ceci est le premier élément de la liste pour le bouton rouge</p></div>
+        <div class="item bg-red white"><p> Ceci est le premier élément de la liste pour le bouton rouge</p></div>
+      </div>
+
+      <div id="list-blue" class="items-right">
+        <div class="item bg-blue white"><p> Ceci est le premier élément de la liste pour le bouton bleu</p></div>
+        <div class="item bg-blue white"><p> Ceci est le premier élément de la liste pour le bouton bleu</p></div>
+        <div class="item bg-blue white"><p> Ceci est le premier élément de la liste pour le bouton bleu</p></div>
+        <div class="item bg-blue white"><p> Ceci est le premier élément de la liste pour le bouton bleu</p></div>
+      </div>
+
+      <div id="list-green" class="items-right">
+        <div class="item bg-green"><p> Ceci est le premier élément de la liste pour le bouton vert</p></div>
+        <div class="item bg-green"><p> Ceci est le premier élément de la liste pour le bouton vert</p></div>
+        <div class="item bg-green"><p> Ceci est le premier élément de la liste pour le bouton vert</p></div>
+        <div class="item bg-green"><p> Ceci est le premier élément de la liste pour le bouton vert</p></div>
+      </div>
+
+      <div id="list-yellow" class="items-right">
+        <div class="item bg-yellow"><p> Ceci est le premier élément de la liste pour le bouton jaune</p></div>
+        <div class="item bg-yellow"><p> Ceci est le premier élément de la liste pour le bouton jaune</p></div>
+        <div class="item bg-yellow"><p> Ceci est le premier élément de la liste pour le bouton jaune</p></div>
+        <div class="item bg-yellow"><p> Ceci est le premier élément de la liste pour le bouton jaune</p></div>
+      </div>
+    </div> <!------------------------------------------- FIN colonne droite -->
+
+  </div> <!------------------------------- FIN container global --------------->
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {  // le dom doit être chargé entièrement avant d'éxécuter le reste 
+      const buttons = document.querySelectorAll('#four-btn button'); // déclare la constante "buttons" et sélectionne tous les elements (par id="four-btn"
+      const lists = document.querySelectorAll('.items-right'); //déclare la constante "lists" et sélectionne tous les elements (par classe items-right)
+  
+      buttons.forEach(button => { // depuis la constante " buttons" pour chaque élément "button"
+          button.addEventListener('click', function() {  //ajoute un évènement pour écouter chaque 'button' s'il est cliqué. 
+          const color = button.id.split('-')[1]; // déclare la constante 'color', cela permet de récupérer la couleur ("red", "blue", etc.). 
+                                                 // la couleur est isolée de 'btn' grâce à .split('-')[1]
+          const targetList = document.getElementById(`list-${color}`); //le code va cibler la bonne liste avec la couleur extraite précédemment.
+          //déclare la constante 'targetList' et va récupérer la bonne liste. 
+          // en cliquant sur le bouton, on déclenche donc la création de la constante 'color' qui peut-être 'red' ou 'green'....
+          // le code va déterminer quelle liste avec d'abord document. (dans ce document),
+          // je cherche l'élément selon son id qui sera 'list' suivi de la constante de couleur 'color' récupérée (ce sera dont 'list-red' ou 'list-blue', etc...)
+  
+          lists.forEach(list => { // depuis la constante 'lists' (déclarée en ligne 176) pour chaque élément 'list'
+            if (list !== targetList) { // si la liste "observée" est !== strictement différente de la liste 'target' (ciblée) alors...
+              list.classList.remove('show'); // on retire de la classe CSS 'items-right' l'état SHOW (ce qui permet de jouer la transition)
+              list.classList.add('hide'); // et on ajoute l'état HIDE (ce qui permet de jouer la transition)
+            }
+          });
+  
+          if (targetList.classList.contains('show')) {  // pour vérifier si la liste cible est actuellement visible (contient l'état SHOW)
+            targetList.classList.remove('show'); // si c'est le cas on retire l'état SHOW (transition jouée)
+            targetList.classList.add('hide'); // et ensuite on ajoute l'état HIDE (transition jouée)
+          } else { //SINON
+            targetList.classList.remove('hide'); //on retire l'état HIDE
+            targetList.classList.add('show'); //on ajoute l'état SHOW (transition jouée)
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+
