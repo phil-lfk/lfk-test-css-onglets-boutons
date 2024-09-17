@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Description de la page" />
+  <title>boutons-et-onglets</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    .bg-blue {
+      background-color: rgb(45, 45, 171);
+    }
+    .bg-black {
+      background-color: black;
+    }
+    .bg-grey {
+      background-color: rgb(89, 89, 89);
+    }
+    .bg-red {
+      background-color: rgb(161, 35, 35);
+    }
+    .bg-green {
+      background-color: rgb(61, 158, 63);
+    }
+    .bg-yellow {
+      background-color: rgb(238, 201, 35);
+    }
+    .white {
+      color: white;
+    }
+    .black {
+      color: black;
+    }
+
+    .cont-global {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .button {
+      width: 80%;
+      height: 5rem;
+    }
+
+    .cont-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 25%;
+    }
+
+    .cont-right {
+      height: 100%;
+      width: 75%;
+      position: relative;
+    }
+
+    #four-btn {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      height: 100%;
+    }
+
+    .item {
+      padding-left: 5%;
+      padding-right: 5%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 5rem;
+      width: 80%;
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out;
+    }
+
+    .items-right {
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
+    }
+
+    .items-right.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .items-right.hide {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out; /* Réduit le temps de disparition */
+    }
+
+    .cont-leftmob {
+      height: 30%;
+      width: 100vw;
+      display: none;
+      z-index: 1;
+    }
+
+    @media (max-width: 768px) {
+      .cont-global {
+        flex-direction: column;
+      }
+      .cont-left {
+        display: none;
+      }
+      .cont-right {
+        height: 100vh;
+        width: 100vw;
+      }
+      .cont-leftmob {
+        height: auto;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .button {
+       width: 100%; /* Tous les boutons prennent 100% de la largeur en mobile */
+       height: 3rem;
+      }
+
+      /* Ajout d'une transition fluide sur la hauteur */
+      #drop-menu {
+        overflow: hidden;
+        max-height: 0;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-20px); /* état initial décalé de -20px vers le haut */
+        transition: max-height 0.5s ease, opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
+        z-index: 0;
+      }
+
+      /* Lorsque le menu dropdown s'ouvre' */
+      #drop-menu.show {
+        max-height: 500px; /* Ajustez en fonction de la hauteur nécessaire */
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        width: 100%;
+        z-index: 0;
+      }
+
+      /* Lorsque le menu dropdown se referme */
+      #drop-menu.hide {
+        max-height: 0;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-20px);
+        width: 100%;
+        z-index: 0;
+      }
+
+      #drop-menu #four-btn {
+        width: 100%;
+      }
+
+      #drop-menu .button {
+    width: 100%; /* Les boutons du dropdown prennent 100% de la largeur */
+    height: 3rem;
+  }
+    }
+  </style>
+</head>
+<body>
+  <div class="cont-global bg-blue">
+    <div class="cont-left bg-grey">
+      <div id="four-btn">
+        <button id="btn-red" class="button bg-red white">Rouge</button>
+        <button id="btn-blue" class="button bg-blue white">Bleu</button>
+        <button id="btn-green" class="button bg-green">Vert</button>
+        <button id="btn-yellow" class="button bg-yellow">Jaune</button>
+      </div>
+    </div>
+
+    <div class="cont-leftmob bg-black">
+      <button style="z-index: 2;" class="button" onclick="open_menu()">Choisissez <span id="arrow">&#x25BC;</span></button>
+
+
+      <div id="drop-menu">
+        <div id="four-btn">
+          <button id="btn-red" class="button bg-red white">Rouge</button>
+          <button id="btn-blue" class="button bg-blue white">Bleu</button>
+          <button id="btn-green" class="button bg-green">Vert</button>
+          <button id="btn-yellow" class="button bg-yellow">Jaune</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cont-right bg-black">
+      <div id="list-red" class="items-right">
+        <div class="item bg-red white">
+          <p>Ceci est un élément pour le bouton rouge</p>
+        </div>
+        <div class="item bg-red white">
+          <p>Ceci est un élément pour le bouton rouge</p>
+        </div>
+        <div class="item bg-red white">
+          <p>Ceci est un élément pour le bouton rouge</p>
+        </div>
+        <div class="item bg-red white">
+          <p>Ceci est un élément pour le bouton rouge</p>
+        </div>
+      </div>
+
+      <div id="list-blue" class="items-right">
+        <div class="item bg-blue white">
+          <p>Ceci est un élément pour le bouton bleu</p>
+        </div>
+        <div class="item bg-blue white">
+          <p>Ceci est un élément pour le bouton bleu</p>
+        </div>
+        <div class="item bg-blue white">
+          <p>Ceci est un élément pour le bouton bleu</p>
+        </div>
+        <div class="item bg-blue white">
+          <p>Ceci est un élément pour le bouton bleu</p>
+        </div>
+      </div>
+
+      <div id="list-green" class="items-right">
+        <div class="item bg-green">
+          <p>Ceci est un élément pour le bouton vert</p>
+        </div>
+        <div class="item bg-green">
+          <p>Ceci est un élément pour le bouton vert</p>
+        </div>
+        <div class="item bg-green">
+          <p>Ceci est un élément pour le bouton vert</p>
+        </div>
+        <div class="item bg-green">
+          <p>Ceci est un élément pour le bouton vert</p>
+        </div>
+      </div>
+
+      <div id="list-yellow" class="items-right">
+        <div class="item bg-yellow">
+          <p>Ceci est un élément pour le bouton jaune</p>
+        </div>
+        <div class="item bg-yellow">
+          <p>Ceci est un élément pour le bouton jaune</p>
+        </div>
+        <div class="item bg-yellow">
+          <p>Ceci est un élément pour le bouton jaune</p>
+        </div>
+        <div class="item bg-yellow">
+          <p>Ceci est un élément pour le bouton jaune</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+function open_menu() {
+  
+  let menu = document.getElementById('drop-menu'); // Récupère le menu déroulant avec ID 'drop-menu'
+   let arrow = document.getElementById('arrow'); // Récupère la flèche dans le span avec ID 'arrow'
+
+  
+  if (menu.classList.contains('show')) { // vérifie si le statut 'show' est présent
+    menu.classList.remove('show'); // si 'show' alors on enleve la classe 'show'
+    // et on change la flèche pour indiquer qu'elle pointe vers le bas (menu fermé) &#x25BC; est le code de la flèche vers le bas
+    arrow.innerHTML = '&#x25BC;'; 
+    // délai (ici 10 pour 10ms) pour assurer que l'animation a le temps de fonctionner
+    setTimeout(() => {
+      menu.classList.add('hide'); // maintenant on ajoute la classe 'hide' pour cacher le menu (déclenche transitionsanimée)
+    }, 1); 
+  } else {
+    // Sinon, cela veut dire que drop-menu est déjà caché (classe 'hide' présente), alors on retire la classe 'hide'
+    menu.classList.remove('hide');
+    // Change la flèche pour indiquer qu'elle pointe vers le haut (menu ouvert)
+    arrow.innerHTML = '&#x25B2;'; // &#x25B2; = code de la flèche vers le haut
+    // délai 10ms pour anim 
+    setTimeout(() => {
+    menu.classList.add('show');// Ajoute la classe 'show' pour rendre le menu visible (avec transition)
+    }, 1); 
+  }
+}
+
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const buttons = document.querySelectorAll("#four-btn button");
+      let currentList = null;
+      let transitioning = false;
+
+      function resetItems(items) {
+        items.forEach((item) => {
+          item.style.opacity = 0;
+          item.style.transitionDelay = "0s";
+        });
+      }
+
+      function startCascade(items) {
+        items.forEach((item, index) => {
+          setTimeout(() => {
+            item.style.opacity = 1;
+            item.style.transitionDelay = `${(index + 1) * 0.15}s`; // SET TIME -- pour apparition des éléments en cascade
+          }, 0);
+        });
+      }
+
+      buttons.forEach((button) => {
+        button.addEventListener("click", function () {
+          if (transitioning) return;
+
+          const color = button.id.split("-")[1];
+          const targetList = document.getElementById(`list-${color}`);
+
+          if (targetList !== currentList) {
+            transitioning = true;
+
+            if (currentList) {
+              currentList.classList.add("hide");
+
+              currentList.addEventListener(
+                "transitionend",
+                function onFadeOut(e) {
+                  if (e.propertyName === "opacity") {
+                    currentList.classList.remove("show", "hide");
+
+                    const items = currentList.querySelectorAll(".item");
+                    resetItems(items);
+
+                    currentList = targetList;
+                    currentList.classList.add("show");
+
+                    const newItems = currentList.querySelectorAll(".item");
+                    resetItems(newItems);
+                    startCascade(newItems);
+
+                    currentList.removeEventListener(
+                      "transitionend",
+                      onFadeOut
+                    );
+                    transitioning = false;
+                  }
+                },
+                { once: true }
+              );
+            } else {
+              currentList = targetList;
+              currentList.classList.add("show");
+
+              const items = currentList.querySelectorAll(".item");
+              resetItems(items);
+              startCascade(items);
+
+              transitioning = false;
+            }
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
