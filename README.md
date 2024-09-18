@@ -31,6 +31,3 @@ Pseudo-classe :
 target : Permet de gérer la visibilité du contenu en fonction de l'ID ciblé dans l'URL.
 Disposition Flexbox : Utilisé pour la mise en page des colonnes et le centrage des éléments.
 Styles des Boutons : Personnalisés pour chaque couleur avec des bordures et sans soulignement.
-
-
-
