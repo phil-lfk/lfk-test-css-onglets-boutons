@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Description de la page" />
+  <title>boutons-et-onglets</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    .bg-blue {
+      background-color: rgb(45, 45, 171);
+    }
+    .bg-lightblue {
+      background-color: #b7ccea;
+    }
+    .bg-black {
+      background-color: black;
+    }
+
+    .bg-grey {
+      background-color: rgb(89, 89, 89);
+    }
+
+    .bg-red {
+      background-color: rgb(161, 35, 35);
+    }
+
+    .bg-lightred {
+      background-color: #d48686;
+    }
+
+    .bg-green {
+      background-color: rgb(61, 158, 63);
+    }
+    .bg-lightgreen {
+      background-color: rgb(118, 175, 119);
+    }
+    .bg-yellow {
+      background-color: rgb(238, 201, 35);
+    }
+    .bg-lightyellow {
+      background-color: rgb(221, 206, 139);
+    }
+    .white {
+      color: white;
+    }
+
+    .black {
+      color: black;
+    }
+
+    .cont-global {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .button {
+      width: 80%;
+      height: 5rem;
+    }
+
+    /* -------------- survol boutons ------------- */
+    #btn-red:hover {
+      background-color: rgb(200, 60, 60);
+      cursor: pointer;
+      transition: all .5s;
+    }
+
+    #btn-blue:hover {
+      background-color: rgb(80, 80, 194);
+      cursor: pointer;
+      transition: all .5s;
+    }
+
+    #btn-green:hover {
+      background-color: rgb(123, 191, 124);
+      cursor: pointer;
+      transition: all .5s;
+    }
+
+    #btn-yellow:hover {
+      background-color: rgb(239, 220, 136);
+      cursor: pointer;
+      transition: all .5s;
+    }
+
+    /* -------------- fin survol boutons ------------- */
+    .cont-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 25%;
+    }
+
+    .cont-right {
+      height: 100%;
+      width: 75%;
+      position: relative;
+    }
+
+    #four-btn {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      height: 100%;
+    }
+
+    .item {
+      /*     padding-left: 5%;
+      padding-right: 5%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 5rem;
+      width: 80%; */
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out;
+    }
+
+    .items-right {
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.6s ease-in-out;
+    }
+
+    .items-right.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .items-right.hide {
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s ease-in-out;
+      /* Réduit le temps de disparition */
+    }
+
+    .cont-leftmob {
+      height: 30%;
+      width: 100vw;
+      display: none;
+      z-index: 1;
+    }
+
+    /* DEBUT CLASSES POUR INNED DRPDOWN ELEMENTS */
+
+    #aspect-content {
+      margin: 50px 0 0;
+      font-family: "Poppins", sans-serif;
+    }
+
+    #aspect-content * {
+      box-sizing: border-box;
+    }
+
+    .aspect-tab {
+      position: relative;
+      width: 80%;
+      /* height: 5rem; /*
+         /* margin: 0 auto 10px; */
+      border-radius: 4px;
+
+    }
+
+    .aspect-input {
+      display: none;
+    }
+
+    .aspect-input:checked~.aspect-content+.aspect-tab-content {
+      /* OK */
+      max-height: 3000px;
+    }
+
+    .aspect-input:checked~.aspect-content:after {
+      /* OK */
+      transform: rotate(0);
+    }
+
+    .aspect-label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      height: 5rem;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      font-size: 0;
+      z-index: 1;
+      cursor: pointer;
+    }
+
+    .aspect-label:hover~.aspect-content:after {
+      /* SVG EN BASE64 DU CARET */
+      background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNTEyIDUxMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBmaWxsPSIjMDAwMDAwIj48ZyBpZD0iU1ZHUmVwb19iZ0NhcnJpZXIiIHN0cm9rZS13aWR0aD0iMCI+PC9nPjxnIGlkPSJTVkdSZXBvX3RyYWNlckNhcnJpZXIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PC9nPjxnIGlkPSJTVkdSZXBvX2ljb25DYXJyaWVyIj48dGl0bGU+aW9uaWNvbnMtdjUtYjwvdGl0bGU+PHBhdGggZD0iTTM0Mi40MywyNzMuNzcsMjY4LjMsMTg0LjY4YTE2LDE2LDAsMCwwLTI0LjYsMGwtNzQuMTMsODkuMDlBMTYsMTYsMCwwLDAsMTgxLjg2LDMwMEgzMzAuMTRBMTYsMTYsMCwwLDAsMzQyLjQzLDI3My43N1oiPjwvcGF0aD48cGF0aCBkPSJNNDQ4LDI1NmMwLTEwNi04Ni0xOTItMTkyLTE5MlM2NCwxNTAsNjQsMjU2czg2LDE5MiwxOTIsMTkyUzQ0OCwzNjIsNDQ4LDI1NloiIHN0eWxlPSJmaWxsOm5vbmU7c3Ryb2tlOiMwMDAwMDA7c3Ryb2tlLW1pdGVybGltaXQ6MTA7c3Ryb2tlLXdpZHRoOjMycHgiPjwvcGF0aD48L2c+PC9zdmc+");
+    }
+
+    .aspect-content {
+      position: relative;
+      display: block;
+      height: 80px;
+      margin: 0;
+      padding: 0 90px 0 30px;
+      font-size: 0;
+
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -o-user-select: none;
+    }
+
+    .aspect-content:before,
+    .aspect-content:after {
+      content: '';
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .aspect-content:before {
+      height: 100%;
+    }
+
+    .aspect-content:after {
+      position: absolute;
+      width: 24px;
+      height: 100%;
+      right: 30px;
+      background-repeat: no-repeat;
+      background-position: center;
+      transform: rotate(180deg);
+    }
+
+    .aspect-name {
+      /* OK */
+      display: inline-block;
+      width: 75%;
+      margin-left: 16px;
+      font-weight: 400;
+      color: #242a32;
+      white-space: normal;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .aspect-stat {
+      /* OK */
+      width: 40%;
+      text-align: right;
+    }
+
+    .all-opinions,
+    .aspect-name {
+      /* OK */
+      font-size: 18px;
+      line-height: 22px;
+    }
+
+    .all-opinions {
+      color: #5d5d5d;
+      text-align: left;
+    }
+
+    .aspect-content+.aspect-tab-content {
+      /* OK */
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .3s;
+    }
+
+    .aspect-content>div,
+    .aspect-stat>div {
+      /* OK */
+      display: inline-block;
+    }
+
+    .aspect-content>div {
+      vertical-align: middle;
+    }
+
+    .positive-count {
+      /* OK */
+      display: inline-block;
+      margin: 0 0 0 20px;
+      padding-left: 0px;
+      background-repeat: no-repeat;
+      font-size: 13px;
+      line-height: 20px;
+      color: #363636;
+    }
+
+    .positive-count {
+      font-size: 20px;
+      /* Ajustez la taille du texte selon vos besoins */
+      display: inline-block;
+      /* Assurez-vous que l'élément est au bon endroit */
+    }
+
+    .positive-count::before {
+      content: "\1F642";
+      /* Code Unicode pour le smiley */
+      font-size: 24px;
+      /* Ajustez la taille du smiley */
+      display: inline-block;
+      /* S'assurer que le smiley est correctement positionné */
+    }
+
+    .aspect-info {
+      /* OK */
+      width: 60%;
+      white-space: nowrap;
+      font-size: 0;
+    }
+
+    .aspect-info:before {
+      /* OK */
+      content: '';
+      display: inline-block;
+      height: 44px;
+      vertical-align: middle;
+    }
+
+    .aspect-tab-content {
+      /* STYLE POUR LA DIV DEROULEE */
+      /* OK */
+      font-size: 0;
+      text-align: justify;
+      border-radius: 4px;
+      
+    }
+
+    .sentiment-wrapper {
+      /* OK */
+      padding: 24px 30px 30px;
+
+
+    }
+
+    .sentiment-wrapper>div {
+      /* OK */
+      display: inline-block;
+      width: 100%;
+
+      box-sizing: border-box;
+      vertical-align: top;
+      cursor: default;
+    }
+
+    .sentiment-wrapper>div>div {
+      /* OK */
+      width: 100%;
+      padding: 0px;
+      text-align: left;
+    }
+
+    .opinion-header {
+      /* OK */
+      position: relative;
+      width: 100%;
+      margin: 0;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 20px;
+      color: #242a32;
+      text-transform: capitalize;
+    }
+
+    .opinion-header+div>span {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 22px;
+      color: #363636;
+    }
+
+    /* FIN CLASSES POUR INNED DRPDOWN ELEMENTS */
+
+
+    /* -------------------------------------RESPONSIVE  */
+    @media (max-width: 768px) {
+      .cont-global {
+        flex-direction: column;
+      }
+
+      .cont-left {
+        display: none;
+      }
+
+      .cont-right {
+        height: 100vh;
+        width: 100vw;
+      }
+
+      .cont-leftmob {
+        height: auto;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .button {
+        width: 100%;
+        /* Tous les boutons prennent 100% de la largeur en mobile */
+        height: 3rem;
+      }
+
+      /* Ajout d'une transition fluide sur la hauteur */
+      #drop-menu {
+        overflow: hidden;
+        max-height: 0;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-20px);
+        /* état initial décalé de -20px vers le haut */
+        transition: all 0.5s ease;
+        z-index: 0;
+      }
+
+      /* Lorsque le menu dropdown s'ouvre' */
+      #drop-menu.show {
+        max-height: 500px;
+        /* Ajustez en fonction de la hauteur nécessaire */
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        width: 100%;
+        z-index: 0;
+      }
+
+      /* Lorsque le menu dropdown se referme */
+      #drop-menu.hide {
+        max-height: 0;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-20px);
+        width: 100%;
+        z-index: 0;
+      }
+
+      #drop-menu #four-btn {
+        width: 100%;
+      }
+
+      #drop-menu .button {
+        width: 100%;
+        /* Les boutons du dropdown prennent 100% de la largeur */
+        height: 3rem;
+      }
+
+      /* Classes responsive pour elements dropdown */
+      .aspect-label {
+        max-height: 102px;
+      }
+
+      .aspect-content {
+        height: auto;
+        width: 100%;
+
+      }
+
+      .aspect-content:before {
+        display: none;
+      }
+
+      .aspect-content:after {
+        top: 0;
+      }
+
+      .aspect-content>div {
+        display: block;
+        margin-bottom: 10px;
+        width: 100%;
+      }
+
+      .aspect-stat {
+        /* OK */
+        margin-top: 10px;
+        text-align: left;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+  <div class="cont-global bg-blue">
+    <div class="cont-left bg-grey">
+      <div id="four-btn">
+        <button id="btn-red" class="button bg-red white">Rouge</button>
+        <button id="btn-blue" class="button bg-blue white">Bleu</button>
+        <button id="btn-green" class="button bg-green">Vert</button>
+        <button id="btn-yellow" class="button bg-yellow">Jaune</button>
+      </div>
+    </div>
+
+    <div class="cont-leftmob bg-black">
+      <button style="z-index: 2;" class="button" onclick="open_menu()">Choisissez <span
+          id="arrow">&#x25BC;</span></button>
+
+
+      <div id="drop-menu">
+        <div id="four-btn">
+          <button id="btn-red" class="button bg-red white">Rouge</button>
+          <button id="btn-blue" class="button bg-blue white">Bleu</button>
+          <button id="btn-green" class="button bg-green">Vert</button>
+          <button id="btn-yellow" class="button bg-yellow">Jaune</button>
+        </div>
+      </div>
+    </div>
+<!--------------------------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------------------------->
+
+
+
+<div class="cont-right bg-black"> <!-- div qui contient toutes les listes couleur à droite -->
+
+<!------------------------------------ LISTE RED ---------------------------------------------> 
+        <div id="list-red" class="items-right"> <!-- div qui contient tous les elements red à droite -->
+
+          <!---------------------------- 1ere section RED ---------------------------------------------> 
+        <div id="red-bloc-one" class="aspect-tab bg-lightred item">
+          <input id="item-red-one" type="checkbox" class="aspect-input" name="aspect">
+          <label for="item-red-one" class="aspect-label"></label>
+          <div class="aspect-content">
+            <div class="aspect-info">
+              <span class="aspect-name">Lorem ipsum dolor sit amet</span>
+            </div>
+            <div class="aspect-stat">
+              <div>
+                <span class="positive-count">12</span>
+              </div>
+            </div>
+          </div>
+          <div class="aspect-tab-content bg-lightred">
+            <div class="sentiment-wrapper">
+              <div>
+                <div>
+                  <div class="opinion-header"></div>
+                  <div>
+                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus
+                      eleifend vitae nunc sed tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
+                      id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!----------------------------------------------------- fin 1ere section RED -->
+
+ <!---------------------------- 2e section RED ---------------------------------------------> 
+        <div id="red-bloc-two" class="aspect-tab bg-lightred item">
+          <input id="item-red-two" type="checkbox" class="aspect-input" name="aspect">
+          <label for="item-red-two" class="aspect-label"></label>
+          <div class="aspect-content">
+            <div class="aspect-info">
+              <span class="aspect-name">Lorem ipsum dolor sit amet</span>
+            </div>
+            <div class="aspect-stat">
+              <div>
+                <span class="positive-count">12</span>
+              </div>
+            </div>
+          </div>
+          <div class="aspect-tab-content bg-lightred">
+            <div class="sentiment-wrapper">
+              <div>
+                <div>
+                  <div class="opinion-header">
+                  </div>
+                  <div>
+                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus
+                      eleifend vitae nunc sed tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
+                      id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!----------------------------------------------------- fin 2e section RED -->
+
+
+ <!---------------------------- 3e section RED ---------------------------------------------> 
+        <div id="red-bloc-three" class="aspect-tab bg-lightred item" ;>
+          <input id="item-red-three" type="checkbox" class="aspect-input" name="aspect">
+          <label for="item-red-three" class="aspect-label"></label>
+          <div class="aspect-content">
+            <div class="aspect-info">
+              <span class="aspect-name">Lorem ipsum dolor sit amet</span>
+            </div>
+            <div class="aspect-stat">
+              <div>
+                <span class="positive-count">12</span>
+              </div>
+            </div>
+          </div>
+          <div class="aspect-tab-content bg-lightred">
+            <div class="sentiment-wrapper">
+              <div>
+                <div>
+                  <div class="opinion-header">
+                  </div>
+                  <div>
+                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus
+                      eleifend vitae nunc sed tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
+                      id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!----------------------------------------------------- fin 3e section RED -->
+
+ <!---------------------------- 4e section RED ---------------------------------------------> 
+        <div id="red-bloc-four" class="aspect-tab bg-lightred item" ;>
+          <input id="item-red-four" type="checkbox" class="aspect-input" name="aspect">
+          <label for="item-red-four" class="aspect-label"></label>
+          <div class="aspect-content">
+            <div class="aspect-info">
+              <span class="aspect-name">Lorem ipsum dolor sit amet</span>
+            </div>
+            <div class="aspect-stat">
+              <div>
+                <span class="positive-count">12</span>
+              </div>
+            </div>
+          </div>
+          <div class="aspect-tab-content bg-lightred">
+            <div class="sentiment-wrapper">
+              <div>
+                <div>
+                  <div class="opinion-header">
+                  </div>
+                  <div>
+                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus
+                      eleifend vitae nunc sed tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
+                      id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!----------------------------------------------------- fin 4e section RED -->
+
+      </div> <!----- fin div qui contient les elements RED -->
+
+
+<!--------------------------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------------------------->
+
+<!------------------------------------ LISTE BLUE ---------------------------------------------> 
+      <div id="list-blue" class="items-right"> <!-- div qui contient tous les elements blue à droite -->
+
+  <!---------------------------- 1ere section BLUE ---------------------------------------------> 
+        <div id="blue-block-one" class="aspect-tab bg-lightblue item">
+          <input id="item-blue-one" type="checkbox" class="aspect-input" name="aspect">
+          <label for="item-blue-one" class="aspect-label"></label>
+          <div class="aspect-content">
+            <div class="aspect-info">
+              <span class="aspect-name">Lorem ipsum dolor sit amet</span>
+            </div>
+            <div class="aspect-stat">
+              <div>
+                <span class="positive-count">12</span>
+              </div>
+            </div>
+          </div>
+          <div class="aspect-tab-content bg-lightblue">
+            <div class="sentiment-wrapper">
+              <div>
+                <div>
+                  <div class="opinion-header"></div>
+                  <div>
+                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus
+                      eleifend vitae nunc sed tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
+                      id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!----------------------------------------------------- fin 1ere section BLUE -->
+
+  <!---------------------------- 2e section BLUE ---------------------------------------------> 
+        <div id="blue-block-two" class="aspect-tab bg-lightblue item">
+          <input id="item-blue-two" type="checkbox" class="aspect-input" name="aspect">
+          <label for="item-blue-two" class="aspect-label"></label>
+          <div class="aspect-content">
+            <div class="aspect-info">
+              <span class="aspect-name">Lorem ipsum dolor sit amet</span>
+            </div>
+            <div class="aspect-stat">
+              <div>
+                <span class="positive-count">12</span>
+              </div>
+            </div>
+          </div>
+          <div class="aspect-tab-content bg-lightblue">
+            <div class="sentiment-wrapper">
+              <div>
+                <div>
+                  <div class="opinion-header">
+                  </div>
+                  <div>
+                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus
+                      eleifend vitae nunc sed tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
+                      id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!----------------------------------------------------- fin 2e section BLUE -->
+
+
+  <!---------------------------- 3e section BLUE ---------------------------------------------> 
+        <div id="blue-block-three" class="aspect-tab bg-lightblue item" ;>
+          <input id="item-blue-three" type="checkbox" class="aspect-input" name="aspect">
+          <label for="item-blue-three" class="aspect-label"></label>
+          <div class="aspect-content">
+            <div class="aspect-info">
+              <span class="aspect-name">Lorem ipsum dolor sit amet</span>
+            </div>
+            <div class="aspect-stat">
+              <div>
+                <span class="positive-count">12</span>
+              </div>
+            </div>
+          </div>
+          <div class="aspect-tab-content bg-lightblue">
+            <div class="sentiment-wrapper">
+              <div>
+                <div>
+                  <div class="opinion-header">
+                  </div>
+                  <div>
+                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus
+                      eleifend vitae nunc sed tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
+                      id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!----------------------------------------------------- fin 3e section BLUE -->
+
+  <!---------------------------- 4e section BLUE ---------------------------------------------> 
+        <div id="blue-block-four" class="aspect-tab bg-lightblue item" ;>
+          <input id="item-blue-four" type="checkbox" class="aspect-input" name="aspect">
+          <label for="item-blue-four" class="aspect-label"></label>
+          <div class="aspect-content">
+            <div class="aspect-info">
+              <span class="aspect-name">Lorem ipsum dolor sit amet</span>
+            </div>
+            <div class="aspect-stat">
+              <div>
+                <span class="positive-count">12</span>
+              </div>
+            </div>
+          </div>
+          <div class="aspect-tab-content bg-lightblue">
+            <div class="sentiment-wrapper">
+              <div>
+                <div>
+                  <div class="opinion-header">
+                  </div>
+                  <div>
+                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus
+                      eleifend vitae nunc sed tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
+                      id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!----------------------------------------------------- fin 4e section BLUE -->
+
+      </div> <!----- fin div qui contient les elements BLUE-->
+      
+<!--------------------------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------------------------->
+
+<!------------------------------------ LISTE GREEN ---------------------------------------------> 
+ <div id="list-green" class="items-right">
+
+  <!---------------------------- 1ere section GREEN ---------------------------------------------> 
+  <div id="green-block-one" class="aspect-tab bg-lightgreen item">
+    <input id="item-green-one" type="checkbox" class="aspect-input" name="aspect">
+    <label for="item-green-one" class="aspect-label"></label>
+    <div class="aspect-content">
+      <div class="aspect-info">
+        <span class="aspect-name">Lorem ipsum dolor sit amet</span>
+      </div>
+      <div class="aspect-stat">
+        <div>
+          <span class="positive-count">12</span>
+        </div>
+      </div>
+    </div>
+    <div class="aspect-tab-content bg-lightgreen">
+      <div class="sentiment-wrapper">
+        <div>
+          <div>
+            <div class="opinion-header"></div>
+            <div>
+              <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!---------------------------- 2e section GREEN ---------------------------------------------> 
+  <div id="green-block-two" class="aspect-tab bg-lightgreen item">
+    <input id="item-green-two" type="checkbox" class="aspect-input" name="aspect">
+    <label for="item-green-two" class="aspect-label"></label>
+    <div class="aspect-content">
+      <div class="aspect-info">
+        <span class="aspect-name">Lorem ipsum dolor sit amet</span>
+      </div>
+      <div class="aspect-stat">
+        <div>
+          <span class="positive-count">12</span>
+        </div>
+      </div>
+    </div>
+    <div class="aspect-tab-content bg-lightgreen">
+      <div class="sentiment-wrapper">
+        <div>
+          <div>
+            <div class="opinion-header"></div>
+            <div>
+              <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!---------------------------- 3e section GREEN ---------------------------------------------> 
+  <div id="green-block-three" class="aspect-tab bg-lightgreen item">
+    <input id="item-green-three" type="checkbox" class="aspect-input" name="aspect">
+    <label for="item-green-three" class="aspect-label"></label>
+    <div class="aspect-content">
+      <div class="aspect-info">
+        <span class="aspect-name">Lorem ipsum dolor sit amet</span>
+      </div>
+      <div class="aspect-stat">
+        <div>
+          <span class="positive-count">12</span>
+        </div>
+      </div>
+    </div>
+    <div class="aspect-tab-content bg-lightgreen">
+      <div class="sentiment-wrapper">
+        <div>
+          <div>
+            <div class="opinion-header"></div>
+            <div>
+              <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   <!---------------------------- 4e section GREEN ---------------------------------------------> 
+  <div id="green-block-four" class="aspect-tab bg-lightgreen item">
+    <input id="item-green-four" type="checkbox" class="aspect-input" name="aspect">
+    <label for="item-green-four" class="aspect-label"></label>
+    <div class="aspect-content">
+      <div class="aspect-info">
+        <span class="aspect-name">Lorem ipsum dolor sit amet</span>
+      </div>
+      <div class="aspect-stat">
+        <div>
+          <span class="positive-count">12</span>
+        </div>
+      </div>
+    </div>
+    <div class="aspect-tab-content bg-lightgreen">
+      <div class="sentiment-wrapper">
+        <div>
+          <div>
+            <div class="opinion-header"></div>
+            <div>
+              <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!----- fin div qui contient les elements GREEN-->
+
+<!--------------------------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------------------------->
+
+<!------------------------------------ LISTE YELLOW ---------------------------------------------> 
+<div id="list-yellow" class="items-right">
+
+  <!---------------------------- 1ere section yellow ---------------------------------------------> 
+  <div id="yellow-block-one" class="aspect-tab bg-lightyellow item">
+    <input id="item-yellow-one" type="checkbox" class="aspect-input" name="aspect">
+    <label for="item-yellow-one" class="aspect-label"></label>
+    <div class="aspect-content">
+      <div class="aspect-info">
+        <span class="aspect-name">Lorem ipsum dolor sit amet</span>
+      </div>
+      <div class="aspect-stat">
+        <div>
+          <span class="positive-count">12</span>
+        </div>
+      </div>
+    </div>
+    <div class="aspect-tab-content bg-lightyellow">
+      <div class="sentiment-wrapper">
+        <div>
+          <div>
+            <div class="opinion-header"></div>
+            <div>
+              <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!---------------------------- 2e section yellow ---------------------------------------------> 
+  <div id="yellow-block-two" class="aspect-tab bg-lightyellow item">
+    <input id="item-yellow-two" type="checkbox" class="aspect-input" name="aspect">
+    <label for="item-yellow-two" class="aspect-label"></label>
+    <div class="aspect-content">
+      <div class="aspect-info">
+        <span class="aspect-name">Lorem ipsum dolor sit amet</span>
+      </div>
+      <div class="aspect-stat">
+        <div>
+          <span class="positive-count">12</span>
+        </div>
+      </div>
+    </div>
+    <div class="aspect-tab-content bg-lightyellow">
+      <div class="sentiment-wrapper">
+        <div>
+          <div>
+            <div class="opinion-header"></div>
+            <div>
+              <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!---------------------------- 3e section yellow ---------------------------------------------> 
+  <div id="yellow-block-three" class="aspect-tab bg-lightyellow item">
+    <input id="item-yellow-three" type="checkbox" class="aspect-input" name="aspect">
+    <label for="item-yellow-three" class="aspect-label"></label>
+    <div class="aspect-content">
+      <div class="aspect-info">
+        <span class="aspect-name">Lorem ipsum dolor sit amet</span>
+      </div>
+      <div class="aspect-stat">
+        <div>
+          <span class="positive-count">12</span>
+        </div>
+      </div>
+    </div>
+    <div class="aspect-tab-content bg-lightyellow">
+      <div class="sentiment-wrapper">
+        <div>
+          <div>
+            <div class="opinion-header"></div>
+            <div>
+              <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   <!---------------------------- 4e section yellow ---------------------------------------------> 
+  <div id="yellow-block-four" class="aspect-tab bg-lightyellow item">
+    <input id="item-yellow-four" type="checkbox" class="aspect-input" name="aspect">
+    <label for="item-yellow-four" class="aspect-label"></label>
+    <div class="aspect-content">
+      <div class="aspect-info">
+        <span class="aspect-name">Lorem ipsum dolor sit amet</span>
+      </div>
+      <div class="aspect-stat">
+        <div>
+          <span class="positive-count">12</span>
+        </div>
+      </div>
+    </div>
+    <div class="aspect-tab-content bg-lightyellow">
+      <div class="sentiment-wrapper">
+        <div>
+          <div>
+            <div class="opinion-header"></div>
+            <div>
+              <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin id congue dolor. Vivamus eleifend vitae nunc sed tincidunt.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!----- fin div qui contient les elements yellow-->
+
+<!-- ------------------------------------------------------------------------------------------------------------------------------->
+
+<!-- ------------------------------------------------------------------------------------------------------------------------------->
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const buttons = document.querySelectorAll("#four-btn button");
+  let currentList = null;
+  let transitioning = false;
+
+  function resetItems(items) {
+    items.forEach((item) => {
+      item.style.opacity = 0;
+      item.style.transitionDelay = "0s";
+    });
+  }
+
+  function startCascade(items) {
+    items.forEach((item, index) => {
+      setTimeout(() => {
+        item.style.opacity = 1;
+        item.style.transitionDelay = `${(index + 1) * 0.15}s`; // SET TIME -- pour apparition des éléments en cascade
+      }, 0);
+    });
+  }
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", function () {
+      if (transitioning) return;
+
+      const color = button.id.split("-")[1];
+      const targetList = document.getElementById(`list-${color}`);
+
+      if (targetList !== currentList) {
+        transitioning = true;
+
+        if (currentList) {
+          currentList.classList.add("hide");
+
+          setTimeout(() => {
+            currentList.classList.remove("show", "hide");
+
+            const items = currentList.querySelectorAll(".item");
+            resetItems(items);
+
+            currentList = targetList;
+            currentList.classList.add("show");
+
+            const newItems = currentList.querySelectorAll(".item");
+            resetItems(newItems);
+            startCascade(newItems);
+
+            transitioning = false;
+          }, 600); // délai de 600ms pour attendre la fin de la transition
+        } else {
+          currentList = targetList;
+          currentList.classList.add("show");
+
+          const items = currentList.querySelectorAll(".item");
+          resetItems(items);
+          startCascade(items);
+
+          transitioning = false;
+        }
+      }
+    });
+  });
+
+  // Cachez les listes précédentes
+  buttons.forEach((button) => {
+    button.addEventListener("click", function () {
+      const previousLists = document.querySelectorAll(".items-right.show");
+      previousLists.forEach((list) => {
+        list.classList.remove("show");
+        list.classList.add("hide");
+      });
+
+      const color = button.id.split("-")[1];
+      const targetList = document.getElementById(`list-${color}`);
+      targetList.classList.remove("hide");
+      targetList.classList.add("show");
+    });
+  });
+
+  // Get all the color list items
+  const colorListItems = document.querySelectorAll('.aspect-tab');
+
+  // Get all the color buttons
+  const colorButtons = document.querySelectorAll('#four-btn button');
+
+  // Add an event listener to each color button
+  colorButtons.forEach((button, index) => {
+    button.addEventListener('click', function() {
+      // Close all the open dropdown texts of the other color lists
+      colorListItems.forEach((item, itemIndex) => {
+        if (itemIndex !== index) {
+          const aspectInput = item.querySelector('.aspect-input');
+          if (aspectInput.checked) {
+            aspectInput.checked = false;
+          }
+        }
+      });
+    });
+  });
+
+  function open_menu() {
+
+    let menu = document.getElementById('drop-menu'); // Récupère le menu déroulant avec ID 'drop-menu'
+    let arrow = document.getElementById('arrow'); // Récupère la flèche dans le span avec ID 'arrow'
+
+
+    if (menu.classList.contains('show')) { // vérifie si le statut 'show' est présent
+      menu.classList.remove('show'); // si 'show' alors on enleve la classe 'show'
+      // et on change la flèche pour indiquer qu'elle pointe vers le bas (menu fermé) &#x25BC; est le code de la flèche vers le bas (caret)
+      arrow.innerHTML = '&#x25BC;';
+      // délai (ici 10 pour 10ms) pour assurer que l'animation a le temps de fonctionner
+      setTimeout(() => {
+        menu.classList.add('hide'); // maintenant on ajoute la classe 'hide' pour cacher le menu (déclenche transitionsanimée)
+      }, 1);
+    } else {
+      // Sinon, cela veut dire que drop-menu est déjà caché (classe 'hide' présente), alors on retire la classe 'hide'
+      menu.classList.remove('hide');
+      // Change la flèche pour indiquer qu'elle pointe vers le haut (menu ouvert)
+      arrow.innerHTML = '&#x25B2;'; // &#x25B2; = code de la flèche vers le haut
+      // délai 10ms pour anim 
+      setTimeout(() => {
+        menu.classList.add('show');// Ajoute la classe 'show' pour rendre le menu visible (avec transition)
+      }, 1);
+    }
+  }
+});
+</script>
+
+</body>
+
+</html>
