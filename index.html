@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Description de la page" />
-  <title>Boutons et onglets</title>
+  <title>BOUTONS ET ONGLETS</title>
   <style>
     * {
       margin: 0;
@@ -26,19 +26,18 @@
     .bg-black {
       background-color: black;
     }
-
     .bg-grey {
       background-color: rgb(89, 89, 89);
     }
-
+    .bg-darkgrey {
+      background-color: rgb(50, 48, 59);
+    }
     .bg-red {
       background-color: rgb(161, 35, 35);
     }
-
     .bg-lightred {
       background-color: #d48686;
     }
-
     .bg-green {
       background-color: rgb(61, 158, 63);
     }
@@ -54,7 +53,6 @@
     .white {
       color: white;
     }
-
     .black {
       color: black;
     }
@@ -64,7 +62,7 @@
       flex-direction: row;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+       height: 100vh; 
       width: 100vw;
     }
 
@@ -124,9 +122,11 @@
     }
 
     .item {
-      /*     padding-left: 5%;
+      padding-left: 5%;
       padding-right: 5%;
-      display: flex;
+      margin-top:5px;
+      margin-bottom:5px;
+      /*     display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
@@ -233,11 +233,11 @@
       white-space: nowrap;
       cursor: pointer;
       user-select: none;
-      -webkit-user-select: none;
+     /* -webkit-user-select: none;
       -khtml-user-select: none;
       -moz-user-select: none;
       -ms-user-select: none;
-      -o-user-select: none;
+      -o-user-select: none; */
     }
 
     .aspect-content:before,
@@ -404,11 +404,15 @@
 
     /* FIN CLASSES POUR INNED DRPDOWN ELEMENTS */
 
+/* --------------------------------------------------------------------------------------------------------------------------------*/
+/* -----------------        RESPONSIVE          ---------------------------------------------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------------------------------*/
 
-    /* -------------------------------------RESPONSIVE  */
     @media (max-width: 768px) {
       .cont-global {
         flex-direction: column;
+        justify-content: flex-start;
+        height: unset;
       }
 
       .cont-left {
@@ -525,9 +529,7 @@
     </div>
 
     <div class="cont-leftmob bg-black">
-      <button style="z-index: 2;" class="button" onclick="open_menu()">Choisissez <span
-          id="arrow">&#x25BC;</span></button>
-
+      <button class="button" id="choose-btn" onclick="open_menu()">Choisissez <span id="arrow">&#x25BC;</span></button>
 
       <div id="drop-menu">
         <div id="four-btn">
@@ -544,7 +546,7 @@
 
 
 
-<div class="cont-right bg-black"> <!-- div qui contient toutes les listes couleur à droite -->
+<div class="cont-right bg-darkgrey"> <!-- div qui contient toutes les listes couleur à droite -->
 
 <!------------------------------------ LISTE RED ---------------------------------------------> 
         <div id="list-red" class="items-right"> <!-- div qui contient tous les elements red à droite -->
@@ -1077,7 +1079,7 @@ document.addEventListener("DOMContentLoaded", function () {
     items.forEach((item, index) => {
       setTimeout(() => {
         item.style.opacity = 1;
-        item.style.transitionDelay = `${(index + 1) * 0.15}s`; // SET TIME -- pour apparition des éléments en cascade
+        item.style.transitionDelay = `${(index + 1) * 0.15}s`; // Pour l'apparition des éléments en cascade
       }, 0);
     });
   }
@@ -1109,7 +1111,7 @@ document.addEventListener("DOMContentLoaded", function () {
             startCascade(newItems);
 
             transitioning = false;
-          }, 600); // délai de 600ms pour attendre la fin de la transition
+          }, 600); // Délai pour la transition
         } else {
           currentList = targetList;
           currentList.classList.add("show");
@@ -1124,7 +1126,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Cachez les listes précédentes
+  // Cache les listes précédentes
   buttons.forEach((button) => {
     button.addEventListener("click", function () {
       const previousLists = document.querySelectorAll(".items-right.show");
@@ -1140,16 +1142,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Get all the color list items
+  // Fermeture des dropdowns lors de la sélection de boutons
   const colorListItems = document.querySelectorAll('.aspect-tab');
-
-  // Get all the color buttons
   const colorButtons = document.querySelectorAll('#four-btn button');
 
-  // Add an event listener to each color button
   colorButtons.forEach((button, index) => {
     button.addEventListener('click', function() {
-      // Close all the open dropdown texts of the other color lists
       colorListItems.forEach((item, itemIndex) => {
         if (itemIndex !== index) {
           const aspectInput = item.querySelector('.aspect-input');
@@ -1161,32 +1159,46 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  // Gestion du menu dropdown
+  const dropdownButtons = document.querySelectorAll('#drop-menu #four-btn button');
+  dropdownButtons.forEach((button, index) => {
+    button.addEventListener('click', function() {
+      colorListItems.forEach((item, itemIndex) => {
+        if (itemIndex !== index) {
+          const aspectInput = item.querySelector('.aspect-input');
+          if (aspectInput.checked) {
+            aspectInput.checked = false;
+          }
+        }
+      });
+    });
+  });
+
+  // Fonction d'ouverture du menu dropdown
   function open_menu() {
+    let menu = document.getElementById('drop-menu');
+    let arrow = document.getElementById('arrow');
 
-    let menu = document.getElementById('drop-menu'); // Récupère le menu déroulant avec ID 'drop-menu'
-    let arrow = document.getElementById('arrow'); // Récupère la flèche dans le span avec ID 'arrow'
-
-
-    if (menu.classList.contains('show')) { // vérifie si le statut 'show' est présent
-      menu.classList.remove('show'); // si 'show' alors on enleve la classe 'show'
-      // et on change la flèche pour indiquer qu'elle pointe vers le bas (menu fermé) &#x25BC; est le code de la flèche vers le bas (caret)
-      arrow.innerHTML = '&#x25BC;';
-      // délai (ici 10 pour 10ms) pour assurer que l'animation a le temps de fonctionner
+    if (menu.classList.contains('show')) {
+      menu.classList.remove('show');
+      arrow.innerHTML = '&#x25BC;'; // Flèche vers le bas
       setTimeout(() => {
-        menu.classList.add('hide'); // maintenant on ajoute la classe 'hide' pour cacher le menu (déclenche transitionsanimée)
+        menu.classList.add('hide');
       }, 1);
     } else {
-      // Sinon, cela veut dire que drop-menu est déjà caché (classe 'hide' présente), alors on retire la classe 'hide'
       menu.classList.remove('hide');
-      // Change la flèche pour indiquer qu'elle pointe vers le haut (menu ouvert)
-      arrow.innerHTML = '&#x25B2;'; // &#x25B2; = code de la flèche vers le haut
-      // délai 10ms pour anim 
+      arrow.innerHTML = '&#x25B2;'; // Flèche vers le haut
       setTimeout(() => {
-        menu.classList.add('show');// Ajoute la classe 'show' pour rendre le menu visible (avec transition)
+        menu.classList.add('show');
+        menu.querySelectorAll('.button').forEach(button => button.classList.add('show'));
       }, 1);
     }
   }
+
+  // Lier l'événement de clic au bouton "Choisissez"
+  document.getElementById("choose-btn").addEventListener("click", open_menu);
 });
+
 </script>
 
 </body>
